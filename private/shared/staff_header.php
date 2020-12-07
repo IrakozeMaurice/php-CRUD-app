@@ -7,16 +7,14 @@
   <head>
     <title>GBI | <?php echo $page_title ?></title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="../stylesheets/staff.css">
+    <link rel="stylesheet" href="<?php echo url_for('/stylesheets/staff.css'); ?>">
   </head>
-
   <body>
-
     <header>
       <h1>Globe Bank Staff Area</h1>
     </header>
     <nav>
       <ul>
-        <li> <a href="index.php">menu</a> </li>
+        <li> <a href="<?php echo url_for('/staff/index.php'); ?>">menu</a> </li>
       </ul>
     </nav>

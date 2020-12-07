@@ -48,8 +48,9 @@ navigation ul li {
 
 #content {
   width: 920px;
-  min-height: 500px;
+  max-height: 500px;
   padding: 0 30px;
+  background-color: red;
 }
 
 footer {
