@@ -1,7 +1,8 @@
 <?php
 
-// Assign file paths to PHP constants
-
+  //output buffering on
+  ob_start();
+  // Assign file paths to PHP constants
   define("PRIVATE_PATH", dirname(__FILE__));
   define("PROJECT_PATH", dirname(PRIVATE_PATH));
   define("PUBLIC_PATH", PROJECT_PATH . '/public');

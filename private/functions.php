@@ -24,4 +24,21 @@ function h($string){
   return htmlspecialchars($string);
 }
 
+//http header functions
+function error_404(){
+  header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+  exit();
+}
+function error_500(){
+  header($_SERVER["SERVER_PROTOCOL"] . " Internal server error");
+  exit();
+}
+
+//redirect function
+function redirect_to($location){
+    header("Location: " . url_for('staff/subjects/index.php'));
+    exit();
+}
+
+
 ?>
