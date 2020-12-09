@@ -36,9 +36,23 @@ function error_500(){
 
 //redirect function
 function redirect_to($location){
-    header("Location: " . url_for('staff/subjects/index.php'));
+    header("Location: " . $location);
     exit();
 }
+
+// detect form submission
+function is_post_request(){
+  return $_SERVER['REQUEST_METHOD'] == 'POST';
+}
+
+function is_get_request(){
+  return $_SERVER['REQUEST_METHOD'] == 'GET';
+}
+
+
+
+
+
 
 
 ?>
