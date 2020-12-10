@@ -37,4 +37,26 @@
     return $subject;  //returns assoc. array
   }
 
+  //function to insert a subject in the database
+  function insert_subject($menu_name, $position, $visible){
+    global $db;
+
+    $query = "insert into subjects ";
+    $query .= "(menu_name, position, visible) ";
+    $query .= "values (" ;
+    $query .= "'" . $menu_name . "',";
+    $query .= "'" . $position . "',";
+    $query .= "'" . $visible . "'";
+    $query .= ")";
+    echo $query;
+    $result = mysqli_query($db, $query);  //returns true or false for insert queries
+    if ($result) {
+      return true;
+    }else {
+      //insert failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
 ?>
