@@ -6,20 +6,21 @@ if (!isset($_GET['id'])) {
   redirect_to(url_for('/staff/subjects/index.php'));
 }
 $id = $_GET['id'];
-$menu_name = '';
-$position = '';
-$visible = '';
 
 if (is_post_request()) {
-  $menu_name = $_POST['menu_name'] ?? '';
-  $position = $_POST['position'] ?? '';
-  $visible = $_POST['visible'] ?? '';
+  //Get form values and put them in an assoc. array
+  $subject = [];
+  $subject['id'] = $id;
+  $subject['menu_name'] = $_POST['menu_name'] ?? '';
+  $subject['position'] = $_POST['position'] ?? '';
+  $subject['visible'] = $_POST['visible'] ?? '';
 
-  echo "Form Parameters <br>";
-  echo "Menu Name: " . $menu_name . "<br>";
-  echo "Position: " . $position . "<br>";
-  echo "Visible: " . $visible . "<br>";
+  //update the database
+  $result = update_subject($subject);
+  redirect_to(url_for('/staff/subjects/show.php?id=' . $id));
 
+}else {
+  $subject = find_subject_by_id($id);
 }
 ?>
 
@@ -33,13 +34,13 @@ if (is_post_request()) {
     <form action="<?php echo url_for('/staff/subjects/edit.php?id=' .h(u_enc($id))); ?>" method="post">
       <dl>
         <dt>Menu Name</dt>
-        <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>" /></dd>
+        <dd><input type="text" name="menu_name" value="<?php echo h($subject['menu_name']); ?>" /></dd>
       </dl>
       <dl>
         <dt>Position</dt>
         <dd>
           <select name="position">
-            <option value="1"<?php if ($position == "1") {
+            <option value="1"<?php if ($subject['position'] == "1") {
               echo "selected";
             } ?>>1</option>
           </select>
@@ -49,7 +50,7 @@ if (is_post_request()) {
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1"<?php if ($visible == "1") {
+          <input type="checkbox" name="visible" value="1"<?php if ($subject['visible'] == "1") {
             echo "checked";
           }; ?> />
         </dd>

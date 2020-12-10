@@ -38,15 +38,15 @@
   }
 
   //function to insert a subject in the database
-  function insert_subject($menu_name, $position, $visible){
+  function insert_subject($subject){
     global $db;
 
     $query = "insert into subjects ";
     $query .= "(menu_name, position, visible) ";
     $query .= "values (" ;
-    $query .= "'" . $menu_name . "',";
-    $query .= "'" . $position . "',";
-    $query .= "'" . $visible . "'";
+    $query .= "'" . $subject['menu_name'] . "',";
+    $query .= "'" . $subject['position'] . "',";
+    $query .= "'" . $subject['visible'] . "'";
     $query .= ")";
     echo $query;
     $result = mysqli_query($db, $query);  //returns true or false for insert queries
@@ -54,6 +54,27 @@
       return true;
     }else {
       //insert failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function update_subject($subject){
+    global $db;
+    
+    $query = "update subjects set ";
+    $query .= "menu_name='" .$subject['menu_name'] . "',";
+    $query .= "position='" .$subject['position'] . "',";
+    $query .= "visible='" .$subject['visible'] . "' ";
+    $query .= "where id='" .$subject['id'] . "' ";
+    $query .= "LIMIT 1";
+
+    $result = mysqli_query($db, $query);    //returns true or false
+    if ($result) {
+      return true;
+    } else {
+      //update failed
       echo mysqli_error($db);
       db_disconnect($db);
       exit;
