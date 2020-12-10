@@ -62,7 +62,9 @@
 
   function update_subject($subject){
     global $db;
-    
+
+
+
     $query = "update subjects set ";
     $query .= "menu_name='" .$subject['menu_name'] . "',";
     $query .= "position='" .$subject['position'] . "',";
@@ -80,4 +82,24 @@
       exit;
     }
   }
+
+  //function to delete a subject
+  function delete_subject($id){
+    global $db;
+
+    $query = "delete from subjects ";
+    $query .= "where id='" . $id . "' ";
+    $query .= "LIMIT 1";
+
+    $result = mysqli_query($db,$query);   //returns true or false for delete query
+    if($result){
+      return true;
+    }else{
+      //delete failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
 ?>
