@@ -24,4 +24,17 @@
     return $result;
   }
 
- ?>
+  //function to find a subject by id
+  function find_subject_by_id($id){
+    global $db;
+
+    $query = "select * from subjects ";
+    $query .= "where id = '" . $id . "'";
+    $result = mysqli_query($db,$query);
+    confirm_result_set($result);
+    $subject = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $subject;  //returns assoc. array
+  }
+
+?>
