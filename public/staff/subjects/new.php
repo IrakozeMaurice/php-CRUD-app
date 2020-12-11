@@ -2,9 +2,21 @@
 
 require_once('../../../private/initialize.php');
 
-$subject_set = find_all_subjects();
-$subject_count = mysqli_num_rows($subject_set) + 1;
-mysqli_free_result($subject_set);
+// Handle form values
+if (is_post_request()) {
+  $subject = [];
+  $subject['menu_name'] = $_POST['menu_name'] ?? '';
+  $subject['position'] = $_POST['position'] ?? '';
+  $subject['visible'] = $_POST['visible'] ?? '';
+
+  $result = insert_subject($subject);
+  $new_id = mysqli_insert_id($db);  //returns id of last insert
+  redirect_to(url_for('/staff/subjects/show.php?id=' . $new_id));
+}else {
+  $subject_set = find_all_subjects();
+  $subject_count = mysqli_num_rows($subject_set) + 1;
+  mysqli_free_result($subject_set);
+}
 
 $subject = [];
 $subject['position'] = $subject_count;
@@ -18,7 +30,7 @@ $subject['position'] = $subject_count;
   <a class="back-link" href="<?php echo url_for('/staff/subjects/index.php'); ?>">&laquo; Back to List</a>
   <div class="subject new">
     <h1>Create Subject</h1>
-    <form action="<?php echo url_for('/staff/subjects/create.php'); ?>" method="post">
+    <form action="<?php echo url_for('/staff/subjects/new.php'); ?>" method="post">
       <dl>
         <dt>Menu Name</dt>
         <dd><input type="text" name="menu_name" value="" /></dd>
