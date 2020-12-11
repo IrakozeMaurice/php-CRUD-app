@@ -53,6 +53,11 @@
   function insert_subject($subject){
     global $db;
 
+    $errors = validate_subject($subject);
+    if(!empty($errors)){
+      return $errors;
+    }
+
     $query = "insert into subjects ";
     $query .= "(menu_name, position, visible) ";
     $query .= "values (" ;
@@ -97,6 +102,11 @@
   //function to edit a subject
   function update_subject($subject){
     global $db;
+
+    $errors = validate_subject($subject);
+    if(!empty($errors)){
+      return $errors;
+    }
 
     $query = "update subjects set ";
     $query .= "menu_name='" .$subject['menu_name'] . "',";
@@ -174,5 +184,26 @@
       db_disconnect($db);
       exit;
     }
+  }
+
+  function validate_subject($subject){
+    $errors = [];
+
+    if (is_blank($subject['menu_name'])) {
+      $errors[] = "Name cannot be blank";
+    }elseif (!has_length($subject['menu_name'],['min' => 2, ['max' => 255]])) {
+      $errors[] = "Name must be between 2 and 255 characters.";
+    }
+    if ((int) $subject['position'] <= 0) {
+      $errors[] = "Position must be greater than zero";
+    }
+    if ((int) $subject['position'] > 999) {
+      $errors[] = "Position must be less than 999.";
+    }
+    $visible_str = (string) $subject['visible'];
+    if (!has_inclusion_of($visible_str, ["0","1"])) {
+      $errors[] = "Visible must be true or false";
+    }
+    return $errors;
   }
 ?>
